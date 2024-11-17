@@ -709,6 +709,29 @@ class Element:
             for char in list(text)
         ]
 
+    async def send_enter_key(self):
+        """Sending Enter key."""
+        await self.apply("(elem) => elem.focus()")
+
+        await self._tab.send(cdp.input_.dispatch_key_event(
+            type_="rawKeyDown",
+            key="Enter",
+            code="Enter",
+            windows_virtual_key_code=13,
+        ))
+        await self._tab.send(cdp.input_.dispatch_key_event(
+            type_="keyUp",
+            key="Enter",
+            code="Enter",
+            windows_virtual_key_code=13,
+        ))
+
+    async def send_arrow_keys(self):
+        """Sending Down key.
+        key events from here: https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
+        """
+        pass
+        
     async def send_file(self, *file_paths: PathLike):
         """
         some form input require a file (upload), a full path needs to be provided.
